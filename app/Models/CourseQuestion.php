@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseQuestion extends Model
@@ -20,5 +21,10 @@ class CourseQuestion extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(CourseAnswer::class, 'course_question_id');
     }
 }

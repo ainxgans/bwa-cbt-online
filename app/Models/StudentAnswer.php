@@ -23,8 +23,8 @@ class StudentAnswer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function courseQuestion(): BelongsTo
+    public function question(): BelongsTo
     {
-        return $this->belongsTo(CourseQuestion::class);
+        return $this->belongsTo(CourseQuestion::class, 'course_question_id');
     }
 }
