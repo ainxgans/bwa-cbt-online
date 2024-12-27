@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('slug');
             $table->string('cover');
             $table->foreignId('category_id')->constrained('categories');
+            $table->timestamps();
             $table->softDeletes();
         });
     }

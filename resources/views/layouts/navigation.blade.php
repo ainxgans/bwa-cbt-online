@@ -16,11 +16,20 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @role('teacher')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard.course.index')" :active="request()->routeIs('dashboard')">
                         {{ __('Manage Course') }}
                     </x-nav-link>
                 </div>
+                @endrole
+                @role('student')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('dashboard.learning.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('My Courses') }}
+                    </x-nav-link>
+                </div>
+                @endrole
             </div>
 
             <!-- Settings Dropdown -->

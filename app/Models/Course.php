@@ -13,6 +13,9 @@ class Course extends Model
     use SoftDeletes;
 
     public $timestamps = false;
+    /**
+     * @var \Illuminate\Support\HigherOrderCollectionProxy|mixed
+     */
 
     protected $fillable = [
         'name',
