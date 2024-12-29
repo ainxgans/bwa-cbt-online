@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\StudentAnswer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,9 +11,26 @@ use Illuminate\Validation\ValidationException;
 
 class CourseStudentController extends Controller
 {
-    public function index()
+    public function index(Course $course)
     {
-
+        $students = $course->students()->orderByDesc('id')->get();
+        $questions = $course->questions()->orderByDesc('id')->get();
+        $totalQuestions = $questions->count();
+        foreach ($students as $student) {
+            $studentAnswers = StudentAnswer::whereHas('question', function ($query) use ($course) {
+                $query->where('course_id', $course->id);
+            })->where('user_id', $student->id)->get();
+            $answersCount = $studentAnswers->count();
+            $correctAnswerCount = $studentAnswers->where('answer', 'correct')->count();
+            if ($answersCount == 0) {
+                $student->status = 'Not Started';
+            } elseif ($correctAnswerCount < $totalQuestions) {
+                $student->status = 'Not passed';
+            } else {
+                $student->status = 'Passed';
+            }
+        }
+        return view('admin.students.index', compact('course', 'questions', 'students'));
     }
 
     public function create(Course $course)
